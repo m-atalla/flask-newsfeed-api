@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request
-from db import MySQLConnection
+from db import MySQLConnection, config
 import click
 from flask_bcrypt import bcrypt
 
@@ -9,10 +9,11 @@ app = Flask(__name__)
 @app.cli.command("init_db")
 def init_db():
     with open("schema.sql", "r", encoding="utf-8") as f:
-        schema = f.read()
+        schema = f.read().format(config["DB_NAME"])
         with MySQLConnection() as db:
             for _ in db.cursor.execute(schema, multi=True):
-                click.echo("Schema statement executed.")
+                pass
+            click.echo("Schema statements executed.")
 
 
 @app.cli.command("seed_user")
