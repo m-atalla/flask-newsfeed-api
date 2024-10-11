@@ -1,6 +1,7 @@
-CREATE DATABASE IF NOT EXISTS newsfeed_db;
+-- Note: Database name is overriden with env vars in the flask cli command
+CREATE DATABASE IF NOT EXISTS {0};
 
-USE newsfeed_db;
+USE {0};
 
 CREATE TABLE IF NOT EXISTS `comments` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
