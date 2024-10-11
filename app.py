@@ -41,7 +41,9 @@ def store_post():
     user_id = request.json.get("user_id")
 
     if not content or not user_id:
-        return jsonify({"message": "Fields `content` and `user_id` are required."}), 400
+        return jsonify({
+            "message": "Fields `content` and `user_id` are required."
+        }), 400
 
     stmt = "INSERT INTO posts (content, user_id) VALUES (%s, %s)"
     with MySQLConnection() as db:
@@ -58,9 +60,16 @@ def update_post(post_id):
     if not content:
         return jsonify({"message": "Field `content` is required."}), 400
 
-    stmt = "UPDATE posts SET content = %s WHERE id = %s"
+    select_stmt = "SELECT * FROM posts WHERE id = %s"
+    update_stmt = "UPDATE posts SET content = %s WHERE id = %s"
     with MySQLConnection() as db:
-        db.cursor.execute(stmt, (content, post_id))
+        db.cursor.execute(select_stmt, (post_id,))
+        post = db.cursor.fetchone()
+        if not post:
+            return jsonify({
+                "message": f"Post with ID {post_id} is not found"
+            }), 404
+        db.cursor.execute(update_stmt, (content, post_id))
 
     return jsonify({"message": "Post updated"}), 200
 
@@ -89,7 +98,6 @@ def delete_post(post_id):
     with MySQLConnection() as db:
         db.cursor.execute(select_stmt, (post_id,))
         post = db.cursor.fetchone()
-
         if not post:
             return jsonify({
                 "message": f"Post with ID {post_id} is not found"
