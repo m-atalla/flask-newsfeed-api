@@ -31,7 +31,7 @@ pip install -r requirements.txt
 #### 4. Run database schema and seed a test user.
 ```bash
 flask init_db
-flask seed_user [EMAIL] 
+flask seed_user
 ```
 
 #### 5. Run the development server
