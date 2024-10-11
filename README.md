@@ -10,7 +10,7 @@
 #### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/m-atalla/newsfeed-api.git
+git clone git@github.com:m-atalla/flask-newsfeed-api.git
 cd newsfeed-api
 ```
 
